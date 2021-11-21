@@ -18,6 +18,6 @@ ws.on('connection', function(socket) {
     ws.clients.forEach(function(clientSocket) {
       clientSocket.send(data)
     });
-    socket.send(data);
+    //socket.send(data);
   });
 });

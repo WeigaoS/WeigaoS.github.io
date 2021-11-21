@@ -19,10 +19,11 @@ class ChatApp {
       this.chatForm.init((data) => {
         let message = new ChatMessage(data);
         socket.sendMessage(message.toObj());
+        this.chatList.init();
       });
     });
     socket.registerMessageHandler((data) => {
-      console.log(data);
+      console.log("Data: ", data);
       // Create a new instance of `ChatMessage` with the incoming data from the
       // WebSockets server
       let message = new ChatMessage(data);

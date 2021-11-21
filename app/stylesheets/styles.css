@@ -21,14 +21,26 @@
           list-style-type: none;
           padding: 4px 12px;
           display: flex;
+          order: 1;
       }
       .message-row img {
         padding-right: 1em;
         /* flex: auto; */
         border-radius: 15px;
       }
+
       .message-row p {
         /* flex: auto; */
+      }
+
+      .others p {
+        order: 2;
+      }
+      
+      .others img {
+        float: left; 
+        padding-right: 1em;
+        order: 1;
       }
 
       .me {

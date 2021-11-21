@@ -1,5 +1,4 @@
 let $ = require('jquery');
-
 let md5 = require('crypto-js/md5');
 
 function createGravatarUrl(username) {
@@ -18,6 +17,7 @@ export class ChatForm {
     this.formId = formId;
     this.inputId = inputId;
   }
+  
   init(submitCallback) {
     $(this.formId).submit((event) => {
       event.preventDefault();
@@ -37,40 +37,53 @@ export class ChatList {
     this.odd = false;
     this.username = username;
   }
-
+  
   init() {
-    this.timer = setInterval(() => {
+      this.timer = setInterval(() => {
         $('[data-time]').each((idx, element) => {
-            let $element = $(element);
-            let timestamp = new Date().setTime($element.attr('data-time'));
-            let ago = moment(timestamp).fromNow();
-            $element.html(ago);
-        });
+        let $element = $(element);
+        let timestamp = new Date().setTime($element.attr('data-time'));
+        let ago = moment(timestamp).fromNow();
+        $element.html(ago);
+      });
     }, 1000);
   }
 
-  drawMessage(messageData) {
-    var $messageRow = $('<li>', {
+  drawMessage({user: u, timestamp: t, message: m}) {
+    let $messageRow = $('<li>', {
       class: 'message-row'
     });
-    var $message = $('<p>');
+    
+    if (this.username === u) {
+      $messageRow.addClass('me');
+    }
+
+    else {
+      $messageRow.addClass('others');
+    }
+    
+    let $message = $('<p>');
     $message.append($('<span>', {
       class: 'message-username',
-      text: messageData.user
+      text: u
     }));
+    
     $message.append($('<span>', {
       class: 'timestamp',
-      'data-time': messageData.timestamp
+      'data-time': t,
+    text: moment(t).fromNow()
     }));
+
     $message.append($('<span>', {
       class: 'message-message',
-      text: messageData.message
+    text: m
     }));
+
     $messageRow.append($message);
 
     var $img = $('<img>', {
-      src: createGravatarUrl(messageData.user),
-      title: messageData.user
+      src: createGravatarUrl(u),
+      title: u
     });
     $messageRow.append($img);
 
@@ -78,4 +91,3 @@ export class ChatList {
     $messageRow.get(0).scrollIntoView();
   }
 }
-
